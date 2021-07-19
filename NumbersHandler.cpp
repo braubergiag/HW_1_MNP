@@ -35,9 +35,8 @@ void NumbersHandler::ParseDataFromCSV() {
     }
 }
 
-std::string NumbersHandler::FindOwnerByNumber(const u_int64_t phoneNumber) const{
+std::string NumbersHandler::FindOwnerByNumber(u_int64_t phoneNumber) const{
 
-    // Тут реализован примитивный поиск. Над ним ещё буду работать
     for (const auto & entry: data){
         auto key_pair = entry.first;
         auto value_pair = entry.second;
