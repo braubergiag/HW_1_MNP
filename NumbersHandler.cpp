@@ -41,7 +41,7 @@ std::string NumbersHandler::FindOwnerByNumber(u_int64_t phoneNumber) const{
         auto key_pair = entry.first;
         auto value_pair = entry.second;
 
-        if (phoneNumber < key_pair.first and phoneNumber < key_pair.second){
+        if (phoneNumber >= key_pair.first and phoneNumber <= key_pair.second){
             return  value_pair.first;
         }
     }
