@@ -42,7 +42,7 @@ namespace rapidcsv
 #endif
 
   /**
-   * @brief     Datastructure holding parameters controlling how invalid numbers (including
+   * @brief     Datastructure holding parameters controlling how invalid ported_numbers (including
    *            empty strings) should be handled.
    */
   struct ConverterParams
@@ -52,8 +52,8 @@ namespace rapidcsv
      * @param   pHasDefaultConverter  specifies if conversion of non-numerical strings shall be
      *                                converted to a default numerical value, instead of causing
      *                                an exception to be thrown (default).
-     * @param   pDefaultFloat         floating-point default value to represent invalid numbers.
-     * @param   pDefaultInteger       integer default value to represent invalid numbers.
+     * @param   pDefaultFloat         floating-point default value to represent invalid ported_numbers.
+     * @param   pDefaultInteger       integer default value to represent invalid ported_numbers.
      */
     explicit ConverterParams(const bool pHasDefaultConverter = false,
                              const long double pDefaultFloat = std::numeric_limits<long double>::signaling_NaN(),
@@ -71,18 +71,18 @@ namespace rapidcsv
     bool mHasDefaultConverter;
 
     /**
-     * @brief   floating-point default value to represent invalid numbers.
+     * @brief   floating-point default value to represent invalid ported_numbers.
      */
     long double mDefaultFloat;
 
     /**
-     * @brief   integer default value to represent invalid numbers.
+     * @brief   integer default value to represent invalid ported_numbers.
      */
     long long mDefaultInteger;
   };
 
   /**
-   * @brief     Exception thrown when attempting to access Document data in a datatype which
+   * @brief     Exception thrown when attempting to access Document owner_data in a datatype which
    *            is not supported by the Converter class.
    */
   class no_converter : public std::exception
@@ -278,10 +278,10 @@ namespace rapidcsv
      * @brief   Constructor
      * @param   pColumnNameIdx        specifies the zero-based row index of the column labels, setting
      *                                it to -1 prevents column lookup by label name, and gives access
-     *                                to all rows as document data. Default: 0
+     *                                to all rows as document owner_data. Default: 0
      * @param   pRowNameIdx           specifies the zero-based column index of the row labels, setting
      *                                it to -1 prevents row lookup by label name, and gives access
-     *                                to all columns as document data. Default: -1
+     *                                to all columns as document owner_data. Default: -1
      */
     explicit LabelParams(const int pColumnNameIdx = 0, const int pRowNameIdx = -1)
       : mColumnNameIdx(pColumnNameIdx)
@@ -301,7 +301,7 @@ namespace rapidcsv
   };
 
   /**
-   * @brief     Datastructure holding parameters controlling how the CSV data fields are separated.
+   * @brief     Datastructure holding parameters controlling how the CSV owner_data fields are separated.
    */
   struct SeparatorParams
   {
@@ -314,7 +314,7 @@ namespace rapidcsv
      *                                should use CR/LF instead of only LF (default is to use standard
      *                                behavior of underlying platforms - CR/LF for Win, and LF for others).
      * @param   pQuotedLinebreaks     specifies whether to allow line breaks in quoted text (default false)
-     * @param   pAutoQuote            specifies whether to automatically dequote data during read, and add
+     * @param   pAutoQuote            specifies whether to automatically dequote owner_data during read, and add
      *                                quotes during write (default true).
      */
     explicit SeparatorParams(const char pSeparator = ',', const bool pTrim = false,
@@ -349,7 +349,7 @@ namespace rapidcsv
     bool mQuotedLinebreaks;
 
     /**
-     * @brief   specifies whether to automatically dequote cell data.
+     * @brief   specifies whether to automatically dequote cell owner_data.
      */
     bool mAutoQuote;
   };
@@ -402,10 +402,10 @@ namespace rapidcsv
     /**
      * @brief   Constructor
      * @param   pPath                 specifies the path of an existing CSV-file to populate the Document
-     *                                data with.
+     *                                owner_data with.
      * @param   pLabelParams          specifies which row and column should be treated as labels.
      * @param   pSeparatorParams      specifies which field and row separators should be used.
-     * @param   pConverterParams      specifies how invalid numbers (including empty strings) should be
+     * @param   pConverterParams      specifies how invalid ported_numbers (including empty strings) should be
      *                                handled.
      * @param   pLineReaderParams     specifies how special line formats should be treated.
      */
@@ -428,10 +428,10 @@ namespace rapidcsv
 
     /**
      * @brief   Constructor
-     * @param   pStream               specifies an input stream to read CSV data from.
+     * @param   pStream               specifies an input stream to read CSV owner_data from.
      * @param   pLabelParams          specifies which row and column should be treated as labels.
      * @param   pSeparatorParams      specifies which field and row separators should be used.
-     * @param   pConverterParams      specifies how invalid numbers (including empty strings) should be
+     * @param   pConverterParams      specifies how invalid ported_numbers (including empty strings) should be
      *                                handled.
      * @param   pLineReaderParams     specifies how special line formats should be treated.
      */
@@ -450,12 +450,12 @@ namespace rapidcsv
     }
 
     /**
-     * @brief   Read Document data from file.
+     * @brief   Read Document owner_data from file.
      * @param   pPath                 specifies the path of an existing CSV-file to populate the Document
-     *                                data with.
+     *                                owner_data with.
      * @param   pLabelParams          specifies which row and column should be treated as labels.
      * @param   pSeparatorParams      specifies which field and row separators should be used.
-     * @param   pConverterParams      specifies how invalid numbers (including empty strings) should be
+     * @param   pConverterParams      specifies how invalid ported_numbers (including empty strings) should be
      *                                handled.
      * @param   pLineReaderParams     specifies how special line formats should be treated.
      */
@@ -474,11 +474,11 @@ namespace rapidcsv
     }
 
     /**
-     * @brief   Read Document data from stream.
-     * @param   pStream               specifies an input stream to read CSV data from.
+     * @brief   Read Document owner_data from stream.
+     * @param   pStream               specifies an input stream to read CSV owner_data from.
      * @param   pLabelParams          specifies which row and column should be treated as labels.
      * @param   pSeparatorParams      specifies which field and row separators should be used.
-     * @param   pConverterParams      specifies how invalid numbers (including empty strings) should be
+     * @param   pConverterParams      specifies how invalid ported_numbers (including empty strings) should be
      *                                handled.
      * @param   pLineReaderParams     specifies how special line formats should be treated.
      */
@@ -497,10 +497,10 @@ namespace rapidcsv
     }
 
     /**
-     * @brief   Write Document data to file.
+     * @brief   Write Document owner_data to file.
      * @param   pPath                 optionally specifies the path where the CSV-file will be created
      *                                (if not specified, the original path provided when creating or
-     *                                loading the Document data will be used).
+     *                                loading the Document owner_data will be used).
      */
     void Save(const std::string& pPath = std::string())
     {
@@ -512,8 +512,8 @@ namespace rapidcsv
     }
 
     /**
-     * @brief   Write Document data to stream.
-     * @param   pStream               specifies an output stream to write the data to.
+     * @brief   Write Document owner_data to stream.
+     * @param   pStream               specifies an output stream to write the owner_data to.
      */
     void Save(std::ostream& pStream)
     {
@@ -521,7 +521,7 @@ namespace rapidcsv
     }
 
     /**
-     * @brief   Clears loaded Document data.
+     * @brief   Clears loaded Document owner_data.
      *
      */
     void Clear()
@@ -555,7 +555,7 @@ namespace rapidcsv
     /**
      * @brief   Get column by index.
      * @param   pColumnIdx            zero-based column index.
-     * @returns vector of column data.
+     * @returns vector of column owner_data.
      */
     template<typename T>
     std::vector<T> GetColumn(const size_t pColumnIdx) const
@@ -579,7 +579,7 @@ namespace rapidcsv
      * @brief   Get column by index.
      * @param   pColumnIdx            zero-based column index.
      * @param   pToVal                conversion function.
-     * @returns vector of column data.
+     * @returns vector of column owner_data.
      */
     template<typename T>
     std::vector<T> GetColumn(const size_t pColumnIdx, ConvFunc<T> pToVal) const
@@ -601,7 +601,7 @@ namespace rapidcsv
     /**
      * @brief   Get column by name.
      * @param   pColumnName           column label name.
-     * @returns vector of column data.
+     * @returns vector of column owner_data.
      */
     template<typename T>
     std::vector<T> GetColumn(const std::string& pColumnName) const
@@ -618,7 +618,7 @@ namespace rapidcsv
      * @brief   Get column by name.
      * @param   pColumnName           column label name.
      * @param   pToVal                conversion function.
-     * @returns vector of column data.
+     * @returns vector of column owner_data.
      */
     template<typename T>
     std::vector<T> GetColumn(const std::string& pColumnName, ConvFunc<T> pToVal) const
@@ -634,7 +634,7 @@ namespace rapidcsv
     /**
      * @brief   Set column by index.
      * @param   pColumnIdx            zero-based column index.
-     * @param   pColumn               vector of column data.
+     * @param   pColumn               vector of column owner_data.
      */
     template<typename T>
     void SetColumn(const size_t pColumnIdx, const std::vector<T>& pColumn)
@@ -668,7 +668,7 @@ namespace rapidcsv
     /**
      * @brief   Set column by name.
      * @param   pColumnName           column label name.
-     * @param   pColumn               vector of column data.
+     * @param   pColumn               vector of column owner_data.
      */
     template<typename T>
     void SetColumn(const std::string& pColumnName, const std::vector<T>& pColumn)
@@ -712,7 +712,7 @@ namespace rapidcsv
     /**
      * @brief   Insert column at specified index.
      * @param   pColumnIdx            zero-based column index.
-     * @param   pColumn               vector of column data (optional argument).
+     * @param   pColumn               vector of column owner_data (optional argument).
      * @param   pColumnName           column label name (optional argument).
      */
     template<typename T>
@@ -761,7 +761,7 @@ namespace rapidcsv
     }
 
     /**
-     * @brief   Get number of data columns (excluding label columns).
+     * @brief   Get number of owner_data columns (excluding label columns).
      * @returns column count.
      */
     size_t GetColumnCount() const
@@ -791,7 +791,7 @@ namespace rapidcsv
     /**
      * @brief   Get row by index.
      * @param   pRowIdx               zero-based row index.
-     * @returns vector of row data.
+     * @returns vector of row owner_data.
      */
     template<typename T>
     std::vector<T> GetRow(const size_t pRowIdx) const
@@ -815,7 +815,7 @@ namespace rapidcsv
      * @brief   Get row by index.
      * @param   pRowIdx               zero-based row index.
      * @param   pToVal                conversion function.
-     * @returns vector of row data.
+     * @returns vector of row owner_data.
      */
     template<typename T>
     std::vector<T> GetRow(const size_t pRowIdx, ConvFunc<T> pToVal) const
@@ -838,7 +838,7 @@ namespace rapidcsv
     /**
      * @brief   Get row by name.
      * @param   pRowName              row label name.
-     * @returns vector of row data.
+     * @returns vector of row owner_data.
      */
     template<typename T>
     std::vector<T> GetRow(const std::string& pRowName) const
@@ -855,7 +855,7 @@ namespace rapidcsv
      * @brief   Get row by name.
      * @param   pRowName              row label name.
      * @param   pToVal                conversion function.
-     * @returns vector of row data.
+     * @returns vector of row owner_data.
      */
     template<typename T>
     std::vector<T> GetRow(const std::string& pRowName, ConvFunc<T> pToVal) const
@@ -871,7 +871,7 @@ namespace rapidcsv
     /**
      * @brief   Set row by index.
      * @param   pRowIdx               zero-based row index.
-     * @param   pRow                  vector of row data.
+     * @param   pRow                  vector of row owner_data.
      */
     template<typename T>
     void SetRow(const size_t pRowIdx, const std::vector<T>& pRow)
@@ -905,7 +905,7 @@ namespace rapidcsv
     /**
      * @brief   Set row by name.
      * @param   pRowName              row label name.
-     * @param   pRow                  vector of row data.
+     * @param   pRow                  vector of row owner_data.
      */
     template<typename T>
     void SetRow(const std::string& pRowName, const std::vector<T>& pRow)
@@ -946,7 +946,7 @@ namespace rapidcsv
     /**
      * @brief   Insert row at specified index.
      * @param   pRowIdx               zero-based row index.
-     * @param   pRow                  vector of row data (optional argument).
+     * @param   pRow                  vector of row owner_data (optional argument).
      * @param   pRowName              row label name (optional argument).
      */
     template<typename T>
@@ -988,7 +988,7 @@ namespace rapidcsv
     }
 
     /**
-     * @brief   Get number of data rows (excluding label rows).
+     * @brief   Get number of owner_data rows (excluding label rows).
      * @returns row count.
      */
     size_t GetRowCount() const
@@ -1001,7 +1001,7 @@ namespace rapidcsv
      * @brief   Get cell by index.
      * @param   pColumnIdx            zero-based column index.
      * @param   pRowIdx               zero-based row index.
-     * @returns cell data.
+     * @returns cell owner_data.
      */
     template<typename T>
     T GetCell(const size_t pColumnIdx, const size_t pRowIdx) const
@@ -1020,7 +1020,7 @@ namespace rapidcsv
      * @param   pColumnIdx            zero-based column index.
      * @param   pRowIdx               zero-based row index.
      * @param   pToVal                conversion function.
-     * @returns cell data.
+     * @returns cell owner_data.
      */
     template<typename T>
     T GetCell(const size_t pColumnIdx, const size_t pRowIdx, ConvFunc<T> pToVal) const
@@ -1037,7 +1037,7 @@ namespace rapidcsv
      * @brief   Get cell by name.
      * @param   pColumnName           column label name.
      * @param   pRowName              row label name.
-     * @returns cell data.
+     * @returns cell owner_data.
      */
     template<typename T>
     T GetCell(const std::string& pColumnName, const std::string& pRowName) const
@@ -1062,7 +1062,7 @@ namespace rapidcsv
      * @param   pColumnName           column label name.
      * @param   pRowName              row label name.
      * @param   pToVal                conversion function.
-     * @returns cell data.
+     * @returns cell owner_data.
      */
     template<typename T>
     T GetCell(const std::string& pColumnName, const std::string& pRowName, ConvFunc<T> pToVal) const
@@ -1086,7 +1086,7 @@ namespace rapidcsv
      * @brief   Get cell by column name and row index.
      * @param   pColumnName           column label name.
      * @param   pRowIdx               zero-based row index.
-     * @returns cell data.
+     * @returns cell owner_data.
      */
     template<typename T>
     T GetCell(const std::string& pColumnName, const size_t pRowIdx) const
@@ -1105,7 +1105,7 @@ namespace rapidcsv
      * @param   pColumnName           column label name.
      * @param   pRowIdx               zero-based row index.
      * @param   pToVal                conversion function.
-     * @returns cell data.
+     * @returns cell owner_data.
      */
     template<typename T>
     T GetCell(const std::string& pColumnName, const size_t pRowIdx, ConvFunc<T> pToVal) const
@@ -1123,7 +1123,7 @@ namespace rapidcsv
      * @brief   Get cell by column index and row name.
      * @param   pColumnIdx            zero-based column index.
      * @param   pRowName              row label name.
-     * @returns cell data.
+     * @returns cell owner_data.
      */
     template<typename T>
     T GetCell(const size_t pColumnIdx, const std::string& pRowName) const
@@ -1142,7 +1142,7 @@ namespace rapidcsv
      * @param   pColumnIdx            zero-based column index.
      * @param   pRowName              row label name.
      * @param   pToVal                conversion function.
-     * @returns cell data.
+     * @returns cell owner_data.
      */
     template<typename T>
     T GetCell(const size_t pColumnIdx, const std::string& pRowName, ConvFunc<T> pToVal) const
@@ -1160,7 +1160,7 @@ namespace rapidcsv
      * @brief   Set cell by index.
      * @param   pRowIdx               zero-based row index.
      * @param   pColumnIdx            zero-based column index.
-     * @param   pCell                 cell data.
+     * @param   pCell                 cell owner_data.
      */
     template<typename T>
     void SetCell(const size_t pColumnIdx, const size_t pRowIdx, const T& pCell)
@@ -1193,7 +1193,7 @@ namespace rapidcsv
      * @brief   Set cell by name.
      * @param   pColumnName           column label name.
      * @param   pRowName              row label name.
-     * @param   pCell                 cell data.
+     * @param   pCell                 cell owner_data.
      */
     template<typename T>
     void SetCell(const std::string& pColumnName, const std::string& pRowName, const T& pCell)
@@ -1358,7 +1358,7 @@ namespace rapidcsv
       std::vector<char> bom2b(2, '\0');
       if (length >= 2)
       {
-        pStream.read(bom2b.data(), 2);
+        pStream.read(bom2b.owner_data(), 2);
         pStream.seekg(0, std::ios::beg);
       }
 
