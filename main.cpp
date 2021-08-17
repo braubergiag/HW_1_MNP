@@ -17,7 +17,11 @@ int main() {
 
     time(&start);
     NumbersHandler handler;
-    handler.ParsePortDataFromCSV(portFile_path);
+    //handler.ParsePortDataFromCSV(portFile_path);
+    //handler.FindPortData(9000000230);
+    handler.ParseDataFromCSV(file_path);
+    std::cout << handler.FindOwnerByNumber(9623831218) << std::endl;
+
     time(&end);
 
     double seconds = difftime(end, start);
