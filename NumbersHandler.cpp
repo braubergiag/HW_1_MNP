@@ -9,29 +9,44 @@ void NumbersHandler::PrintData() const{
         std::cout << key_pair.first << " " << key_pair.second << " " << data_pair.first << std::endl;
     }
 }
-void NumbersHandler::PrintPortData() const{
+void NumbersHandler::FindPortData(uint_fast32_t user_number) const{
+    uint_fast32_t l = 0,m = 0, r = numbers.size();
+
+    while (r-l > 1) {
+        m = (l + r) / 2;
+        if (numbers[m].first >= user_number) {
+            r = m;
+        } else {
+            l = m;
+        }
+    }
+
+    auto & data_pair = numbers[r].second;
+    std::cout << numbers[r].first << " " << data_pair.first << " " << data_pair.second << std::endl;
 
 }
-rapidcsv::Document NumbersHandler::ReadDataFromCSV(const std::string & file_path){
 
-    rapidcsv::Document file = rapidcsv::Document (file_path,rapidcsv::LabelParams{},
-                              rapidcsv::SeparatorParams{},
-                              rapidcsv::ConverterParams{true});
-    return file;
-
-}
 void NumbersHandler::ParseDataFromCSV(const std::string & file_path) {
-    rapidcsv::Document file = ReadDataFromCSV(file_path);
-    auto NumberFrom{file.GetColumn<u_int64_t>("NumberFrom")};
-    auto NumberTo{file.GetColumn<u_int64_t>("NumberTo")};
-    auto OwnerId{file.GetColumn<std::string>("OwnerId")};
-    auto RegionCode{file.GetColumn<std::string>("RegionCode")};
 
-    size_t data_size=  file.GetRowCount();
-    for (size_t i = 0; i < data_size; ++i){
-        auto key_pair = std::make_pair(NumberFrom.at(i),NumberTo.at(i));
-        auto value_pair = std::make_pair(OwnerId.at(i),RegionCode.at(i));
-        data[key_pair] = value_pair;
+    const int ROWS_COUNT = 4;
+    uint32_t data_size;
+
+    io::CSVReader<1> rowsCounter(file_path);
+    io::CSVReader<ROWS_COUNT> rowIn(file_path);
+    rowsCounter.read_header(io::ignore_extra_column,"RowCount");
+    rowsCounter.read_row(data_size);
+    rowIn.read_header(io::ignore_extra_column, "NumberFrom", "NumberTo", "OwnerId","RegionCode");
+
+
+    data.resize(data_size);
+    uint_fast32_t numberFrom = 0, numberTo = 0;
+    std::string ownerId, regionCode;
+    int i = 0;
+    while(rowIn.read_row(numberFrom,numberTo,ownerId,regionCode)) {
+        auto key_pair = std::make_pair(numberFrom,numberTo);
+        auto value_pair = std::make_pair(ownerId,regionCode);
+        data[i] = std::make_pair(key_pair,value_pair);
+        ++i;
     }
 }
 
@@ -39,24 +54,37 @@ void NumbersHandler::ParseDataFromCSV(const std::string & file_path) {
 
 std::string NumbersHandler::FindOwnerByNumber(u_int64_t phoneNumber) const{
 
-    for (const auto & entry: data){
-        auto key_pair = entry.first;
-        auto value_pair = entry.second;
+    uint_fast32_t l = 0,m = 0, r = data.size();
+    auto range_min = data[l].first.first;
+    auto range_max = data[r - 1].first.second;
+    if (phoneNumber < range_min || phoneNumber > range_max) {
+        return "Not Found";
+    }
+    while (r-l > 1) {
 
-        if (phoneNumber >= key_pair.first and phoneNumber <= key_pair.second){
-            return  value_pair.first;
+        m = (l + r) / 2;
+        auto & range = data[m].first;
+        if (range.second >= phoneNumber) {
+            r = m;
+            if (range.first <= phoneNumber) {
+                auto & data_entry = data[r].second;
+                return data_entry.first;
+            }
+        } else {
+            l = m;
         }
     }
 
-    return "Not found.";
 }
 
 void NumbersHandler::ParsePortDataFromCSV(const std::string & file_path) {
-
-    io::CSVReader<3> in(file_path);
-    io::CSVReader<1> rowIn(file_path);
-    rowIn.read_header(io::ignore_extra_column,"RowCount");
     uint32_t data_size;
+    const int ROWS_COUNT = 3;
+    io::CSVReader<1> rowIn(file_path);
+    io::CSVReader<ROWS_COUNT> in(file_path);
+
+    rowIn.read_header(io::ignore_extra_column,"RowCount");
+
     rowIn.read_row(data_size);
     in.read_header(io::ignore_extra_column, "Number", "OwnerId", "PortDate");
     numbers.resize(data_size);
