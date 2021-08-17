@@ -23,8 +23,7 @@ bool NumbersHandler::FindPortData(uint64_t user_number,std::string &owner) const
         }
     }
     if (user_number == ported_numbers[r].first) {
-        auto & data_pair = ported_numbers[r].second;
-        owner = data_pair.first;
+        owner = ported_numbers[r].second;
         return true;
     } else {
         return false;
@@ -60,24 +59,25 @@ bool NumbersHandler::FindOwnerByNumber(uint64_t phoneNumber,std::string &owner) 
 
 void NumbersHandler::ParsePortDataFromCSV(const std::string & file_path) {
     uint32_t data_size;
-    const int ROWS_COUNT = 3;
+    const int ROWS_COUNT = 2;
     io::CSVReader<1> rowIn(file_path);
     io::CSVReader<ROWS_COUNT> in(file_path);
 
     rowIn.read_header(io::ignore_extra_column,"RowCount");
 
     rowIn.read_row(data_size);
-    in.read_header(io::ignore_extra_column, "Number", "OwnerId", "PortDate");
+    in.read_header(io::ignore_extra_column, "Number", "OwnerId");
     ported_numbers.resize(data_size);
     uint_fast32_t number = 0;
-    std::string owner, date;
-    int i = 0;
-    while (in.read_row(number, owner, date)) {
+    std::string owner;
+    size_t i = 0;
+    while (in.read_row(number, owner)) {
+        auto pair = std::make_pair(number,owner);
         ported_numbers[i].first = number;
-        auto & data_entry =  ported_numbers[i].second;
-        data_entry.first = owner;
-        data_entry.second = date;
+        ported_numbers[i].second = owner;
         ++i;
+
+
     }
 
 
@@ -98,12 +98,13 @@ void NumbersHandler::ParseDataFromCSV(const std::string & file_path) {
     owner_data.resize(data_size);
     uint_fast32_t numberFrom = 0, numberTo = 0;
     std::string ownerId, regionCode;
-    int i = 0;
+    size_t i = 0;
+
     while(rowIn.read_row(numberFrom,numberTo,ownerId,regionCode)) {
+
         auto key_pair = std::make_pair(numberFrom,numberTo);
         auto value_pair = std::make_pair(ownerId,regionCode);
-        owner_data[i] = std::make_pair(key_pair, value_pair);
-        ++i;
+        owner_data[i++] = std::make_pair(key_pair, value_pair);
     }
 }
 
