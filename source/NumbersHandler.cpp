@@ -68,7 +68,7 @@ void NumbersHandler::ParsePortDataFromCSV(const std::string & file_path) {
     rowIn.read_row(data_size);
     in.read_header(io::ignore_extra_column, "Number", "OwnerId");
     ported_numbers.resize(data_size);
-    uint_fast32_t number = 0;
+    uint64_t number = 0;
     std::string owner;
     size_t i = 0;
     while (in.read_row(number, owner)) {
@@ -96,7 +96,7 @@ void NumbersHandler::ParseDataFromCSV(const std::string & file_path) {
 
 
     owner_data.resize(data_size);
-    uint_fast32_t numberFrom = 0, numberTo = 0;
+    uint64_t numberFrom = 0, numberTo = 0;
     std::string ownerId, regionCode;
     size_t i = 0;
 
