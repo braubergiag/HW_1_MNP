@@ -1,2 +1,2 @@
 # HW_1_MNP
-MNP_VER_1
+MNP_VER_2
