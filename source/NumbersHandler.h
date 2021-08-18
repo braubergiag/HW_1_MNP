@@ -8,7 +8,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "csv.h"
+#include "../include/csv.h"
 
 typedef std::pair<uint64_t,uint64_t> range_pair;
 typedef std::pair<std::string,std::string> data_pair;

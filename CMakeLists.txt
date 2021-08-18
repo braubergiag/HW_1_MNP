@@ -6,4 +6,4 @@ SET(CMAKE_CXX_FLAGS -pthread)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(HW_1 main.cpp NumbersHandler.cpp NumbersHandler.h csv.h)
+add_executable(HW_1 source/main.cpp source/NumbersHandler.cpp source/NumbersHandler.h)

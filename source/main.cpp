@@ -1,17 +1,13 @@
 #include <iostream>
-#include <string>
 #include "NumbersHandler.h"
-#include "csv.h"
-#include <fstream>
-#include <stdio.h>
 #include <time.h>
 
 
 
 int main() {
 
-    const std::string file_path = "../Numbering_plan.csv";
-    const std::string portFile_path = "../Port_All.csv";
+    const std::string file_path = "../data/Numbering_plan.csv";
+    const std::string portFile_path = "../data/Port_All.csv";
 
     time_t start, end;
     time(&start);
