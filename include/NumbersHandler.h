@@ -8,7 +8,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "../include/csv.h"
+#include "csv.h"
 
 typedef std::pair<uint64_t,uint64_t> range_pair;
 typedef std::pair<std::string,std::string> data_pair;
@@ -23,9 +23,6 @@ public:
     void ParseDataFromCSV(const std::string & file_path);
     void ParsePortDataFromCSV(const std::string & file_path);
 private:
-
-
-
     std::vector<std::pair<range_pair,data_pair>> owner_data;
     std::vector<std::pair<uint_fast32_t, std::string>> ported_numbers;
 
