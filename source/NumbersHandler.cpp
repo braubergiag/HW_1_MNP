@@ -1,6 +1,9 @@
 
 #include "../include/NumbersHandler.h"
 
+enum class OwnerName {
+
+};
 
 void NumbersHandler::PrintData() const{
     for (const auto & entry: owner_data){
@@ -9,6 +12,7 @@ void NumbersHandler::PrintData() const{
         std::cout << key_pair.first << " " << key_pair.second << " " << data_pair.first << std::endl;
     }
 }
+
 bool NumbersHandler::FindPortData(uint64_t user_number,std::string &owner) const{
     int64_t l = - 1,m = 0, r = ported_numbers.size() - 1;
     if (user_number < ported_numbers[l + 1].first || user_number > ported_numbers[r].first) {
@@ -23,7 +27,7 @@ bool NumbersHandler::FindPortData(uint64_t user_number,std::string &owner) const
         }
     }
     if (user_number == ported_numbers[r].first) {
-        owner = ported_numbers[r].second;
+        owner = IdToOwner.at(ported_numbers[r].second);
         return true;
     } else {
         return false;
@@ -72,9 +76,9 @@ void NumbersHandler::ParsePortDataFromCSV(const std::string & file_path) {
     std::string owner;
     size_t i = 0;
     while (in.read_row(number, owner)) {
-        auto pair = std::make_pair(number,owner);
+        AddOwner(owner);
         ported_numbers[i].first = number;
-        ported_numbers[i].second = owner;
+        ported_numbers[i].second = ownerToId[owner];
         ++i;
 
 
@@ -97,15 +101,30 @@ void NumbersHandler::ParseDataFromCSV(const std::string & file_path) {
 
     owner_data.resize(data_size);
     uint64_t numberFrom = 0, numberTo = 0;
-    std::string ownerId, regionCode;
+    std::string owner, regionCode;
     size_t i = 0;
 
-    while(rowIn.read_row(numberFrom,numberTo,ownerId,regionCode)) {
-
+    while(rowIn.read_row(numberFrom,numberTo,owner,regionCode)) {
+        AddOwner(owner);
         auto key_pair = std::make_pair(numberFrom,numberTo);
-        auto value_pair = std::make_pair(ownerId,regionCode);
+        auto value_pair = std::make_pair(owner,regionCode);
         owner_data[i++] = std::make_pair(key_pair, value_pair);
     }
+}
+
+void NumbersHandler::PrintOwners() const {
+    for (const auto & item: ownerToId){
+        std::cout << item.first << " " << item.second << std::endl;
+    }
+
+}
+
+void NumbersHandler::AddOwner(const std::string &owner) {
+    if (ownerToId.count(owner) == 0) {
+        ownerToId[owner] = ownerToId.size();
+        IdToOwner[IdToOwner.size()] = owner;
+    }
+
 }
 
 

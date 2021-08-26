@@ -33,7 +33,6 @@ int main() {
     handler.ParsePortDataFromCSV(portFile_path);
     handler.ParseDataFromCSV(file_path);
 
-
     for (auto & targetNumber:targetNumbersTest){
         if (handler.FindPortData(targetNumber,owner))
             std::cout << owner << std::endl;
