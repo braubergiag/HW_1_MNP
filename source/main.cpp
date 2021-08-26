@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../include/NumbersHandler.h"
+#include "NumbersHandler.h"
 #include <time.h>
 
 
