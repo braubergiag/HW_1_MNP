@@ -1,9 +1,7 @@
 
 #include "../include/NumbersHandler.h"
 
-enum class OwnerName {
 
-};
 
 void NumbersHandler::PrintData() const{
     for (const auto & entry: m_owner_data){
@@ -13,10 +11,10 @@ void NumbersHandler::PrintData() const{
     }
 }
 
-bool NumbersHandler::FindPortData(uint64_t user_number,std::string &owner) const{
+std::string NumbersHandler::FindPortData(uint64_t user_number) const{
     int64_t l = - 1,m = 0, r = m_ported_numbers.size() - 1;
     if (user_number < m_ported_numbers[l + 1].first || user_number > m_ported_numbers[r].first) {
-        return false;
+        return "";
     }
     while (r-l > 1) {
         m = (l + r) / 2;
@@ -27,20 +25,20 @@ bool NumbersHandler::FindPortData(uint64_t user_number,std::string &owner) const
         }
     }
     if (user_number == m_ported_numbers[r].first) {
-        owner = m_id_to_owner.at(m_ported_numbers[r].second);
-        return true;
+        std::string owner = m_id_to_owner.at(m_ported_numbers[r].second);
+        return owner;
     } else {
-        return false;
+        return "";
     }
 
 }
-bool NumbersHandler::FindOwnerByNumber(uint64_t phoneNumber,std::string &owner) const{
+std::string NumbersHandler::FindOwnerByNumber(uint64_t phoneNumber) const{
     //   (l,r]
     int64_t l = -1,m = 0, r = m_owner_data.size() - 1;
     auto range_min = m_owner_data[l + 1].first.first;
     auto range_max = m_owner_data[r].first.second;
     if (phoneNumber < range_min || phoneNumber > range_max) {
-        return false;
+        return "";
     }
     while (r-l > 1) {
 
@@ -49,14 +47,14 @@ bool NumbersHandler::FindOwnerByNumber(uint64_t phoneNumber,std::string &owner) 
         if (range.second >= phoneNumber) {
             r = m;
             if (range.first <= phoneNumber) {
-                owner = m_id_to_owner.at(m_owner_data[r].second);
-                return true;
+                std::string owner = m_id_to_owner.at(m_owner_data[r].second);
+                return owner;
             }
         } else {
             l = m;
         }
     }
-    return false;
+    return "";
 
 }
 

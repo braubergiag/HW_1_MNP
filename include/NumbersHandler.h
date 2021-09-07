@@ -13,8 +13,8 @@ public:
     void PrintData() const;
     void PrintOwners() const;
     void AddOwner(const std::string & owner);
-    bool FindPortData(uint64_t user_number,std::string &owner) const;
-    bool FindOwnerByNumber(uint64_t phoneNumber,std::string &owner) const;
+    std::string FindPortData(uint64_t user_number) const;
+    std::string FindOwnerByNumber(uint64_t phoneNumber) const;
     void ParseDataFromCSV(const std::string & file_path);
     void ParsePortDataFromCSV(const std::string & file_path);
 private:
